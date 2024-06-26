@@ -4,14 +4,14 @@ BaseCaching = __import__("base_caching").BaseCaching
 
 
 class LIFOCache(BaseCaching):
-    """Class doc"""
+    """ Class doc """
 
     def __init__(self):
-        """Function doc"""
+        """ Function doc """
         super().__init__()
 
     def put(self, key, item):
-        """Function docs"""
+        """ Function docs """
         if key and item:
             if len(self.cache_data) >= BaseCaching.MAX_ITEMS:
                 removed = list(self.cache_data.keys())[-1]

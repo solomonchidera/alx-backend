@@ -1,18 +1,18 @@
 #!/usr/bin/env python3
-""" module doc """
+""" Module doc """
 BaseCaching = __import__("base_caching").BaseCaching
 
 
 class LRUCache(BaseCaching):
-    """class doc"""
+    """ Class doc """
 
     def __init__(self):
-        """func doc"""
+        """ Func doc """
         super().__init__()
         self.order = []
 
     def put(self, key, item):
-        """func doc"""
+        """ Func doc """
         if key and item:
             if len(self.cache_data) >= BaseCaching.MAX_ITEMS:
                 removed = self.order.pop(0)
@@ -22,7 +22,7 @@ class LRUCache(BaseCaching):
             self.order.append(key)
 
     def get(self, key):
-        """func doc"""
+        """ Func doc """
         if key in self.cache_data:
             self.order.remove(key)
             self.order.append(key)

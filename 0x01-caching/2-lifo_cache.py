@@ -1,17 +1,17 @@
 #!/usr/bin/env python3
-""" module doc """
+""" Module doc """
 BaseCaching = __import__("base_caching").BaseCaching
 
 
 class LIFOCache(BaseCaching):
-    """class doc"""
+    """Class doc"""
 
     def __init__(self):
-        """function doc"""
+        """Function doc"""
         super().__init__()
 
     def put(self, key, item):
-        """function"""
+        """Function docs"""
         if key and item:
             if len(self.cache_data) >= BaseCaching.MAX_ITEMS:
                 removed = list(self.cache_data.keys())[-1]
@@ -20,5 +20,5 @@ class LIFOCache(BaseCaching):
             self.cache_data[key] = item
 
     def get(self, key):
-        """function doc"""
+        """ Function doc """
         return self.cache_data.get(key)

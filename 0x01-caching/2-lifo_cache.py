@@ -6,28 +6,19 @@ BaseCaching = __import__("base_caching").BaseCaching
 class LIFOCache(BaseCaching):
     """a class for a lifo cache"""
     def __init__(self):
-        """initiaion method
-        """
+        """initiation method"""
         super().__init__()
 
     def put(self, key, item):
-        """_summary_
-
-        Args:
-            key (_type_): _description_
-            item (_type_): _description_
-        """
-        if key is None or item is None:
+        """Assign the item value for the key key."""
+        if key is None or item is None:  # Correct handling of None values.
             return
         if key not in self.cache_data:
-            if len(self.cache_data) > self.MAX_ITEMS:
-                last_in = self.cache_data.popitem()
+            if len(self.cache_data) >= BaseCaching.MAX_ITEMS:  # Correct condition.
+                last_in = self.cache_data.popitem()  # Correct LIFO removal.
                 print(f"DISCARD: {last_in[0]}")
         self.cache_data[key] = item
 
     def get(self, key):
-        """
-        Args:
-            key (_type_): _description_
-        """
+        """Return the value in self.cache_data linked to key."""
         return self.cache_data.get(key, None)

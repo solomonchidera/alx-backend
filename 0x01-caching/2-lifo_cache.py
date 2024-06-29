@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
-"""define a LIFO caching class"""
+""" Define a LIFO caching class """
 BaseCaching = __import__("base_caching").BaseCaching
 
 
 class LIFOCache(BaseCaching):
-    """a class for a lifo cache"""
+    """ Class for a lifo cache """
     def __init__(self):
-        """initiation method"""
+        """ Initiation method """
         super().__init__()
 
     def put(self, key, item):
-        """Assign the item value for the key key."""
+        """ Assign the item value for the key key """
         if key is None or item is None:  # Correct handling of None values.
             return
         if key not in self.cache_data:
@@ -20,5 +20,5 @@ class LIFOCache(BaseCaching):
         self.cache_data[key] = item
 
     def get(self, key):
-        """Return the value in self.cache_data linked to key."""
+        """ Return the value in self.cache_data linked to key """
         return self.cache_data.get(key, None)

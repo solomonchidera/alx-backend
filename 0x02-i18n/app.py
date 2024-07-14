@@ -3,8 +3,9 @@
 0x02. i18n
 """
 from flask import Flask, render_template, request, g
-from flask_babel import Babel, _
+from flask_babel import Babel
 import pytz
+from datetime import datetime
 
 app = Flask(__name__)
 babel = Babel(app)
@@ -32,7 +33,10 @@ app.config.from_object(Config)
 def main():
     """The main method."""
     user = before_request()
-    return render_template("7-index.html", logged_in_as=user)
+    current_time = get_current_time()
+    return render_template(
+        "index.html", logged_in_as=user, current_time_is=current_time
+    )
 
 
 @babel.localeselector
@@ -41,11 +45,17 @@ def get_locale():
     language = request.args.get("locale")
     if language and language in app.config["LANGUAGES"]:
         return language
-    if hasattr(g, "user") and g.user and "locale" in g.user and g.user["locale"] in app.config["LANGUAGES"]:
+    if (
+        hasattr(g, "user")
+        and g.user
+        and "locale" in g.user
+        and g.user["locale"] in app.config["LANGUAGES"]
+    ):
         return g.user["locale"]
     if request.accept_languages.best_match(app.config["LANGUAGES"]):
         return request.accept_languages.best_match(app.config["LANGUAGES"])
     return app.config["BABEL_DEFAULT_LOCALE"]
+
 
 def get_user():
     """A method that verifies a user."""
@@ -80,6 +90,13 @@ def get_timezone():
         except pytz.exceptions.UnknownTimeZoneError:
             pass
     return "UTC"
+
+
+def get_current_time():
+    """Get the current time in the user's timezone."""
+    user_timezone = get_timezone()
+    current_time = datetime.now(pytz.timezone(user_timezone))
+    return current_time.strftime("%Y-%m-%d %H:%M:%S")
 
 
 if __name__ == "__main__":

@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
-""" doc doc doc """
+""" Flask application module
+"""
 from flask import Flask, render_template, request
 from flask_babel import Babel
 
 
 class Config(object):
-    """doc doc doc"""
-
+    """ Flask app configuration class
+    """
     LANGUAGES = ["en", "fr"]
     BABEL_DEFAULT_LOCALE = "en"
     BABEL_DEFAULT_TIMEZONE = "UTC"
@@ -14,22 +15,26 @@ class Config(object):
 
 app = Flask(__name__)
 app.config.from_object(Config)
+app.url_map.strict_slashes = False
 babel = Babel(app)
 
 
 @babel.localeselector
-def get_locale() -> str:
-    """ doc doc doc """
-    if request.args.get("locale") in app.config["LANGUAGES"]:
-        return request.args.get("locale")
-    return request.accept_languages.best_match(app.config["LANGUAGES"])
+def get_locale():
+    """ Gets client's locale/region
+        Checks if locale has been passed in the parameters
+    """
+    locale = request.args.get('locale', '')
+    if locale in app.config["LANGUAGES"]:
+        return locale
+    return request.accept_languages.best_match(Config.LANGUAGES)
 
 
 @app.route("/")
-def index() -> str:
-    """doc doc doc"""
+def home():
+    """ Home route """
     return render_template("4-index.html")
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port="5000")
+    app.run(host="0.0.0.0", port=5000)
